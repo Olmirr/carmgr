@@ -1,7 +1,7 @@
 package com.hzdl.car.carmgr.mapper;
 
 import com.hzdl.car.carmgr.bean.Menu;
-import com.hzdl.car.carmgr.sqlprovider.MenuSqlProvider;
+import com.hzdl.car.carmgr.sqlprovider.SqlProvider;
 import com.hzdl.car.carmgr.vo.MenuVo;
 import com.hzdl.car.carmgr.vo.RoleVo;
 import org.apache.ibatis.annotations.*;
@@ -17,7 +17,7 @@ public interface MenuMapper {
     @Select("select * from sys_menu where available = #{available}")
     List<Menu> findAllMenu(MenuVo menuVo);
 
-    @SelectProvider(type = MenuSqlProvider.class, method = "findMenu")
+    @SelectProvider(type = SqlProvider.class, method = "findMenu")
     List<Menu> findMenu(MenuVo menuVo);
 
     @Insert("insert into sys_menu(pid,name,href,open,target,icon,available) " +
@@ -35,7 +35,7 @@ public interface MenuMapper {
     @Delete("delete from sys_menu where id = #{id} ")
     int delById(Integer id);
 
-    @SelectProvider(type = MenuSqlProvider.class, method = "findMenuById")
+    @SelectProvider(type = SqlProvider.class, method = "findMenuById")
     List<Menu> findMenuById(MenuVo menuVo);
 
     @Select("select m.* from sys_role r "+

@@ -1,7 +1,7 @@
 package com.hzdl.car.carmgr.mapper;
 
 import com.hzdl.car.carmgr.bean.News;
-import com.hzdl.car.carmgr.sqlprovider.MenuSqlProvider;
+import com.hzdl.car.carmgr.sqlprovider.SqlProvider;
 import com.hzdl.car.carmgr.vo.NewsVo;
 import org.apache.ibatis.annotations.*;
 
@@ -17,7 +17,7 @@ public interface NewsMapper {
     @Select("select * from sys_news order by createtime desc")
     List<News> findNews(NewsVo newsVo);
 
-    @SelectProvider(type = MenuSqlProvider.class, method = "findNewsWhere")
+    @SelectProvider(type = SqlProvider.class, method = "findNewsWhere")
     List<News> findNewsWhere(NewsVo newsVo);
 
     @Delete("delete from sys_news where id = #{id}")

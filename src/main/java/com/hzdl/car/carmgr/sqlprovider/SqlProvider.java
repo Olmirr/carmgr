@@ -8,7 +8,7 @@ import org.apache.ibatis.jdbc.SQL;
  * @author 伴你时光尽头
  * @create 2020-02-28 14:10
  */
-public class MenuSqlProvider {
+public class SqlProvider {
     public String findMenu(MenuVo menuVo){
         return new SQL(){{
             SELECT("*");
@@ -115,6 +115,52 @@ public class MenuSqlProvider {
             ORDER_BY("createtime desc");
 
 
+
+        }}.toString();
+    }
+
+    public String findCustomerWhere(CustomerVo customerVo){
+        return new SQL(){{
+            SELECT("*");
+            FROM("bus_customer");
+            if(!Common.chkStringEmpty(customerVo.getIdentity())){
+                WHERE(" identity = #{identity}");
+            }
+            if(!Common.chkStringEmpty(customerVo.getCustname())){
+                WHERE(" custname like concat('%',#{custname},'%')");
+            }
+            if(!Common.chkStringEmpty(customerVo.getAddress())){
+                WHERE(" address like concat('%',#{address},'%')");
+            }
+            if(!Common.chkStringEmpty(customerVo.getPhone())){
+                WHERE(" phone = #{phone} ");
+            }
+            if(!Common.chkStringEmpty(customerVo.getCareer())){
+                WHERE(" career = #{career}");
+            }
+            WHERE(" sex = #{sex}");
+
+        }}.toString();
+    }
+
+    public String findCarWhere(CarVo carVo){
+        return new SQL(){{
+            SELECT("*");
+            FROM("bus_car");
+            if(!Common.chkStringEmpty(carVo.getCarNumber())){
+                WHERE(" carnumber = #{carNumber}");
+            }
+            if(!Common.chkStringEmpty(carVo.getCarType())){
+                WHERE(" cartype = #{carType}");
+            }
+            if(!Common.chkStringEmpty(carVo.getColor())){
+                WHERE(" color like concat('%',#{color},'%')");
+            }
+            if(!Common.chkStringEmpty(carVo.getDescription())){
+                WHERE(" description like concat('%',#{description},'%')");
+            }
+
+            WHERE(" isrenting = #{isRenting}");
 
         }}.toString();
     }

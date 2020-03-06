@@ -1,7 +1,7 @@
 package com.hzdl.car.carmgr.mapper;
 
 import com.hzdl.car.carmgr.bean.User;
-import com.hzdl.car.carmgr.sqlprovider.MenuSqlProvider;
+import com.hzdl.car.carmgr.sqlprovider.SqlProvider;
 import com.hzdl.car.carmgr.vo.UserVo;
 import org.apache.ibatis.annotations.*;
 
@@ -19,7 +19,7 @@ public interface UserMapper {
     @Select("select * from sys_user")
     List<User> findUser(UserVo userVo);
 
-    @SelectProvider(type = MenuSqlProvider.class, method = "findUserWhere")
+    @SelectProvider(type = SqlProvider.class, method = "findUserWhere")
     List<User> findUserWhere(UserVo userVo);
 
     @Insert("insert into sys_user(identity,loginname,pwd,realname,sex,address,phone,position,type,available) values(#{identity},#{loginname},md5(#{pwd}),#{realname},#{sex},#{address},#{phone},#{position},#{type},#{available})")

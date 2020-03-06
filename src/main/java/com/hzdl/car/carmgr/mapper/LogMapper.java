@@ -1,7 +1,7 @@
 package com.hzdl.car.carmgr.mapper;
 
 import com.hzdl.car.carmgr.bean.Log;
-import com.hzdl.car.carmgr.sqlprovider.MenuSqlProvider;
+import com.hzdl.car.carmgr.sqlprovider.SqlProvider;
 import com.hzdl.car.carmgr.vo.LogVo;
 import org.apache.ibatis.annotations.*;
 
@@ -17,7 +17,7 @@ public interface LogMapper {
     @Select("select * from sys_log_login order by logintime desc")
     List<Log> findLog(LogVo logVo);
 
-    @SelectProvider(type = MenuSqlProvider.class, method = "findLogWhere")
+    @SelectProvider(type = SqlProvider.class, method = "findLogWhere")
     List<Log> findLogWhere(LogVo logVo);
 
     @Delete("delete from sys_log_login where id = #{id}")

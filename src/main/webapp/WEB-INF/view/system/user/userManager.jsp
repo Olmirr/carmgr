@@ -401,7 +401,7 @@
                         // 刷新table数据
                         userTable.reload()
                     });
-                    layer.colse(ind)
+                    layer.close(ind);
                 });
                 return false;
             })

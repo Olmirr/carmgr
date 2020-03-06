@@ -1,8 +1,7 @@
 package com.hzdl.car.carmgr.mapper;
 
 import com.hzdl.car.carmgr.bean.Role;
-import com.hzdl.car.carmgr.sqlprovider.MenuSqlProvider;
-import com.hzdl.car.carmgr.vo.MenuVo;
+import com.hzdl.car.carmgr.sqlprovider.SqlProvider;
 import com.hzdl.car.carmgr.vo.RoleVo;
 import org.apache.ibatis.annotations.*;
 
@@ -17,7 +16,7 @@ public interface RoleMapper {
     @Select("select * from sys_role")
     List<Role> findRole(RoleVo roleVo);
 
-    @SelectProvider(type = MenuSqlProvider.class, method = "findRoleWhere")
+    @SelectProvider(type = SqlProvider.class, method = "findRoleWhere")
     List<Role> findRoleWhere(RoleVo roleVo);
 
     @Insert("insert into sys_role(rolename,roledesc,available) " +
