@@ -20,17 +20,22 @@
     <script type="text/javascript" src="/layui/layui.js"></script>
     <script>
         layui.extend({
-            dtree: '/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+            dtree: '/layui_ext/dtree/dtree'
         }).use(['dtree','layer','jquery'], function(){
             var dtree = layui.dtree, layer = layui.layer, $ = layui.jquery;
 
             // 初始化树
             var DemoTree = dtree.render({
-                elem: "#demoTree1",
-                //data: demoTree, // 使用data加载
-                url: "/menu/menuLeftTreeJson" // 使用url加载（可与data加载同时存在）
-                , dataStyle:"layuiStyle"//使用layui风格的数据格式
-                , response:{message:"msg",statusCode:0}  //修改response中返回数据的定义
+                elem: "#demoTree1"
+                , url: "/menu/menuLeftTreeJson"
+                , dataStyle:"layuiStyle"
+                , response:{message:"msg",statusCode:0}
+            });
+
+            //点击左侧菜单项，右侧显示内容
+            dtree.on("node('demoTree1')",function(obj) {
+                var id = obj.param.nodeId;
+                window.parent.right.searchById(id);
             });
         });
     </script>

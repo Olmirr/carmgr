@@ -1,8 +1,7 @@
 package com.hzdl.car.carmgr.bean;
 
-import lombok.*;
+import lombok.Data;
 
-import javax.swing.*;
 import java.io.Serializable;
 
 /**

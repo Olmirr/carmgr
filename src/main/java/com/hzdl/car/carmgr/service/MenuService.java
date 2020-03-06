@@ -22,4 +22,10 @@ public interface MenuService {
 
     int delById(Integer id);
 
-    int exitsChildren(Integer id);}
+    int exitsChildren(Integer id);
+
+    PageInfo<Menu> findMenuById(MenuVo menuVo);
+
+    List<Menu> findAllMenuByUser(MenuVo menuVo, Integer userid);
+
+}

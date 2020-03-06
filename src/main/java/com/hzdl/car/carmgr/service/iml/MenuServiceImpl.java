@@ -53,4 +53,18 @@ public class MenuServiceImpl implements MenuService {
     public int exitsChildren(Integer id) {
         return menuMapper.exitsChildren(id);
     }
+
+    @Override
+    public PageInfo<Menu> findMenuById(MenuVo menuVo) {
+        PageHelper.startPage(menuVo.getPage(),menuVo.getLimit());
+        List<Menu> list= menuMapper.findMenuById(menuVo);
+        PageInfo<Menu> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
+    @Override
+    public List<Menu> findAllMenuByUser(MenuVo menuVo, Integer userid) {
+        return menuMapper.findAllMenuByUser(menuVo.getAvailable(), userid);
+    }
+
 }

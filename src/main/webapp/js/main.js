@@ -73,12 +73,12 @@ layui.use(['form','element','layer','jquery'],function(){
     }
 
     //最新文章列表
-    $.get("../json/newsList.json",function(data){
+    $.get("/news/findNewsLatest",function(data){
         var hotNewsHtml = '';
         for(var i=0;i<5;i++){
             hotNewsHtml += '<tr>'
-                +'<td align="left"><a href="javascript:;"> '+data.data[i].newsName+'</a></td>'
-                +'<td>'+data.data[i].newsTime.substring(0,10)+'</td>'
+                +'<td align="left"><a href="javascript:;"> '+data.data[i].title+'</a></td>'
+                +'<td>'+data.data[i].createtime.substring(0,10)+'</td>'
                 +'</tr>';
         }
         $(".hot_news").html(hotNewsHtml);

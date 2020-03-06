@@ -23,4 +23,24 @@ public class SystemController {
     public String toMenuManagerRight(){
         return "system/menu/menuRight";
     }
+
+    @RequestMapping("toRoleManager")
+    public String toRoleManager(){
+        return "system/role/roleManager";
+    }
+
+    @RequestMapping("toUserManager")
+    public String toUserManager(){
+        return "system/user/userManager";
+    }
+
+    @RequestMapping("toLogManager")
+    public String toLogManager(){
+        return "system/log/logManager";
+    }
+
+    @RequestMapping("toNewsManager")
+    public String toNewsManager(){
+        return "system/news/newsManager";
+    }
 }

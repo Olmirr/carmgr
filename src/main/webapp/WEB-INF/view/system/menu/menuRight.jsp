@@ -122,8 +122,9 @@
         <script src="/layui/layui.js"></script>
         <script>
                 var menuTree;
+                var menuTable;
                 layui.extend({
-                        dtree: '/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+                        dtree: '/layui_ext/dtree/dtree'
                 }).use(['table','form','layer','jquery','dtree'], function(){
                         var table = layui.table
                         var form = layui.form
@@ -132,7 +133,7 @@
                         var dtree = layui.dtree
 
                         // 初始table
-                        var menuTable = table.render({
+                        menuTable = table.render({
                                 elem:"#menuTable"
                                 ,url:"/menu/findMenuRight"
                                 ,page: {limit:5 ,limits:[5,10,15]} //开启分页
@@ -279,6 +280,19 @@
                                 layer.msg(JSON.stringify(param));
                         });
                 })
+
+        function searchById(id) {
+                menuTable.reload({
+                        url:"/menu/findMenuRightById"
+                        ,where:{
+                        'id':id
+                        }
+                        ,page:{
+                        curr:1
+                        }
+                })
+
+        }
         </script>
 </body>
 </html>

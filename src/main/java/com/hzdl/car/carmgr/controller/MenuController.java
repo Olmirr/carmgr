@@ -2,7 +2,9 @@ package com.hzdl.car.carmgr.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.hzdl.car.carmgr.bean.Menu;
+import com.hzdl.car.carmgr.bean.User;
 import com.hzdl.car.carmgr.service.MenuService;
+import com.hzdl.car.carmgr.util.Common;
 import com.hzdl.car.carmgr.util.HzdlResultJson;
 import com.hzdl.car.carmgr.util.ResultObj;
 import com.hzdl.car.carmgr.util.TreeNode;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +31,16 @@ public class MenuController {
     private MenuService menuService;
 
     @RequestMapping("findAllMenu")
-    public Map<String, Object> findAllMenu(MenuVo menuVo){
+    public Map<String, Object> findAllMenu(MenuVo menuVo, HttpSession session){
         menuVo.setAvailable(1);
-        // 查询数据库
-        List<Menu> menuList =  menuService.findAllMenu(menuVo);
-
+        List<Menu> menuList = new ArrayList<>();
+        Object o = session.getAttribute("user");
+        User user = (User)o;
+        if (user.getType() == 1) {
+            menuList = menuService.findAllMenu(menuVo);
+        } else {
+            menuList = menuService.findAllMenuByUser(menuVo,user.getUserid());
+        }
         List<TreeNode> treeNodes = new ArrayList<>();
         // 把menuList 转换成treeNodes 类型
         for(Menu m1: menuList){
@@ -40,7 +48,6 @@ public class MenuController {
             treeNodes.add(treeNode);
         }
         // 所有的菜单数据都转换成了TreeNode
-
         List<TreeNode> treeNodes2 = new ArrayList<>();
         // 把数转换成有层级关系的数据
         getTreeNodeMenu(treeNodes,1,treeNodes2);
@@ -55,9 +62,7 @@ public class MenuController {
     public HzdlResultJson menuLeftTreeJson(){
         MenuVo menuVo = new MenuVo();
         menuVo.setAvailable(1);
-        // 查询数据库
         List<Menu> menuList =  menuService.findAllMenu(menuVo);
-
         List<TreeNode> treeNodes = new ArrayList<>();
 
         // 把menuList 转换成treeNodes 类型
@@ -65,11 +70,10 @@ public class MenuController {
             TreeNode treeNode = new TreeNode(m1.getId(),m1.getPid(),m1.getName(),m1.getIcon(),m1.getHref(),m1.getOpen()==1?true:false,m1.getTarget());
             treeNodes.add(treeNode);
         }
-        // 所有的菜单数据都转换成了TreeNode
 
+        // 所有的菜单数据都转换成了TreeNode
         List<TreeNode> treeNodes2 = new ArrayList<>();
-        Integer id =1;
-        getTreeNodeMenu(treeNodes,id,treeNodes2);
+        getTreeNodeMenu(treeNodes,1,treeNodes2);
 
         return HzdlResultJson.ok(treeNodes2);
     }
@@ -117,13 +121,20 @@ public class MenuController {
         try{
             // 没有子菜单才可以删除
             menuService.delById(menuVo.getId());
-            return  ResultObj.DELETE_SUCCESS;
+            return ResultObj.DELETE_SUCCESS;
         }catch (Exception e){
             return ResultObj.DELETE_ERROR;
         }
     }
 
-    private void getTreeNodeMenu(List<TreeNode> treeNodes, Integer id ,  List<TreeNode> treeNodes2) {
+    @RequestMapping("findMenuRightById")
+    public HzdlResultJson findMenuRightById(MenuVo menuVo){
+        PageInfo<Menu> pageInfo = menuService.findMenuById(menuVo);
+        return HzdlResultJson.ok(pageInfo.getTotal(),pageInfo.getList());
+    }
+
+    //公共方法：得到树形节点的全部菜单
+    private void getTreeNodeMenu(List<TreeNode> treeNodes, Integer id, List<TreeNode> treeNodes2) {
         // 把数转换成有层级关系的数据
         for (TreeNode t1 : treeNodes) {
             if (t1.getPid() == id) { // 判断是一级菜单
